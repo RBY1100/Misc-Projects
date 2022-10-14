@@ -8,6 +8,8 @@ withouts <- function(x,y,z){
     hit <- sample(1:20, 1, replace = TRUE) + x
       if(hit == 20 + x){
         placehold[i] <- sum(sample(1:8, 2, replace = TRUE)) + z
+      }else if(hit == 1 + x){
+        placehold[i] <- 0
       }else if(hit >= y){
         placehold[i] <- sample(1:8, 1, replace = TRUE) + z
       }
@@ -24,6 +26,8 @@ withs <- function(x,y,z){
     hit <- sample(1:20, 1, replace = TRUE) + x - 5
       if(hit == 20 + x - 5){
         placehold[i] <- sum(sample(1:8, 2, replace = TRUE)) + z + 10
+      }else if(hit == 1 + x){
+        placehold[i] <- 0
       }else if(hit >= y){
         placehold[i] <- sample(1:8, 1, replace = TRUE) + z + 10
     }
