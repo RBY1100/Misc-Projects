@@ -48,7 +48,7 @@ multisim <- function(w,x,y,z){
   return(sum(test)/1000)
 }
 
-withsf <- c(multisim("y", 8, 1, 4), multisim("y", 8, 2, 4), multisim("y", 8, 3, 4), multisim("y", 8, 4, 4),
+with_sharp <- c(multisim("y", 8, 1, 4), multisim("y", 8, 2, 4), multisim("y", 8, 3, 4), multisim("y", 8, 4, 4),
             multisim("y", 8, 5, 4), multisim("y", 8, 6, 4), multisim("y", 8, 7, 4), multisim("y", 8, 8, 4), 
            multisim("y", 8, 9, 4), multisim("y", 8, 10, 4), multisim("y", 8, 11, 4), multisim("y", 8, 12, 4), 
            multisim("y", 8, 13, 4), multisim("y", 8, 14, 4), multisim("y", 8, 15, 4), multisim("y", 8, 16, 4), 
@@ -56,7 +56,7 @@ withsf <- c(multisim("y", 8, 1, 4), multisim("y", 8, 2, 4), multisim("y", 8, 3, 
            multisim("y", 8, 21, 4), multisim("y", 8, 22, 4), multisim("y", 8, 23, 4), multisim("y", 8, 24, 4), 
            multisim("y", 8, 25, 4))
            
-withoutsf <- c(multisim("n", 8, 1, 4), multisim("n", 8, 2, 4), multisim("n", 8, 3, 4), multisim("n", 8, 4, 4),
+without_sharp <- c(multisim("n", 8, 1, 4), multisim("n", 8, 2, 4), multisim("n", 8, 3, 4), multisim("n", 8, 4, 4),
             multisim("n", 8, 5, 4), multisim("n", 8, 6, 4), multisim("n", 8, 7, 4), multisim("n", 8, 8, 4), 
             multisim("n", 8, 9, 4), multisim("n", 8, 10, 4), multisim("n", 8, 11, 4), multisim("n", 8, 12, 4), 
             multisim("n", 8, 13, 4), multisim("n", 8, 14, 4), multisim("n", 8, 15, 4), multisim("n", 8, 16, 4), 
@@ -66,4 +66,4 @@ withoutsf <- c(multisim("n", 8, 1, 4), multisim("n", 8, 2, 4), multisim("n", 8, 
 
 AC <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25)
 
-dataframe <- data.frame(AC, withoutsf, withsf)
+dataframe <- data.frame(AC, without_sharp, with_sharp)
