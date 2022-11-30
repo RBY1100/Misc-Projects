@@ -1,15 +1,36 @@
 library(tidyverse)
-library(readxl)
+library(haven)
+library(stats)
 
-gvsu <- read_excel(path = here::here("STA 610 Project", "GVSU (2).xlsx"))
+library(haven)
 
-subgvsu <- gvsu %>%
-  select(STUDY)
+gvsu <- read_sav(here::here("STA 610 Project", "GVSU.sav"))
+
+sum(is.na(gvsu))
+apply(gvsu, 2, function(col)sum(is.na(col))/length(col))
+
 
 recodegvsu <- gvsu %>%
   mutate(SEX = fct_recode(SEX,
-                          "0" = "F",
-                          "1" = "M"))
+                          "Female" = "F",
+                          "Male" = "M"),
+         YEAR = fct_recode(YEAR,
+                           "Freshman" = "F",
+                           "Sophomore" = "So",
+                           "Junior" = "J",
+                           "Senior" = "S"),
+         BUS = fct_recode(BUS,
+                          "Yes" = "Y",
+                          "No" = "N"))
 
-newgvsu <- gvsu %>%
-  mutate(pct = (TEXTBOOKS / TUITION)*100)
+filtergvsu <- recodegvsu %>%
+  mutate(CREDITCOST = (TUITION / CREDITS))%>%
+  filter(TUITION < 150001, CREDITS > 0)
+
+
+selectgvsu <- filtergvsu %>%
+  select(SEX, YEAR, SLEEP, CREDITCOST, STUDY, BUS) %>%
+  na.omit()
+
+model <- lm(formula = SLEEP ~ CREDITCOST + SEX + YEAR + STUDY + BUS, data = selectgvsu)
+summary(model)
