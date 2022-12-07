@@ -29,14 +29,14 @@ ggplot(nat) +
         legend.position = "none") 
 
 #Shiller Index for Locations
-mult <- read_xlsx(here::here("House Project","Original Graph Location","multiindex.xlsx"))
+mult <- read_xlsx(here::here("House Project","Original Graph Location","manyshil.xlsx"))
 mult$Year = as.Date(mult$Year, format = "%m/%d/%Y")
 
 ggplot(mult) +
-  geom_line(aes(x=Year, y= Index_Price, group= Location, color = Location), size = 1.5) +
-  labs(title= "Figure 2: Shiller National Price Index for Select Locations",
+  geom_line(aes(x=Year, y= Percent_Change, group= City, color = City), size = 1.5) +
+  labs(title= "Figure 2: Shiller Index Percent Change",
        caption = "Source: St. Louis Federal Reserve FRED") +
-  scale_y_continuous(limits = c(50,450), breaks = seq(50, 450,50)) +
+  scale_y_continuous(limits = c(-35,35), breaks = seq(-35, 35,5)) +
   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color= "black"),
@@ -52,6 +52,29 @@ ggplot(mult) +
         legend.text=element_text(size=12, family = "serif")) +
 scale_color_manual(values = c("red", "blue", "#194a12", "#ebe010", "black"))
 
+#MBS Use
+mbs <- read_xlsx(here::here("House Project","Original Graph Location","MBS.xlsx"))
+mbs$Year = as.Date(mbs$Year, format = "%m/%d/%Y")
+
+
+ggplot(mbs) +
+  geom_line(aes(x=Year, y= Billions_of_Dollars), size = 1.5) +
+  labs(title= "Figure 3: Total MBS Issuance in US",
+       caption = "Source: Zhang & Xu (2019)") +
+  scale_y_continuous(limits = c(0,3000), breaks = seq(0, 3000,500)) +
+  scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color= "black"),
+        panel.background = element_rect(fill="white"),
+        axis.text = element_text(size = 12, color = "black", family = "serif"),
+        axis.ticks = element_blank(),
+        axis.title = element_text(size = 16, color = "black", family = "serif"),
+        plot.title = element_text(family = "serif", size = 24, hjust = .5),
+        plot.caption = element_text(family = "serif", size = 12, hjust = .01),
+        panel.border = element_rect(fill=NA),
+        plot.background = element_rect(color="black"),
+        legend.position = "none") 
+
 #Homeownership Rate
 owner <- read_xlsx(here::here("House Project","Original Graph Location","homeowner.xlsx"))
 owner$Year = as.Date(owner$Year, format = "%m/%d/%Y")
@@ -59,7 +82,7 @@ owner$Year = as.Date(owner$Year, format = "%m/%d/%Y")
 
 ggplot(owner) +
   geom_line(aes(x=Year, y= Homeownership_Rate), size = 1.5) +
-  labs(title= "Figure 3: Homeownership Rate in the United States",
+  labs(title= "Figure 4: Homeownership Rate in the US",
        caption = "Source: St. Louis Federal Reserve FRED") +
   scale_y_continuous(limits = c(62,70), breaks = seq(62, 70,1)) +
   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
@@ -83,7 +106,7 @@ homepct$Year = as.Date(homepct$Year, format = "%m/%d/%Y")
 
 ggplot(homepct) +
   geom_line(aes(x=Year, y= Percent_Change_from_Year_Prior), size = 1.5) +
-  labs(title= "Figure 4: Shiller National Price Index Percent Change",
+  labs(title= "Figure 5: Shiller National Price Index Pct Change",
        caption = "Source: St. Louis Federal Reserve FRED") +
   scale_y_continuous(limits = c(-15,15), breaks = seq(-15, 15,3)) +
   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
@@ -171,15 +194,39 @@ ggplot(days) +
   scale_color_manual(values = c("red", "blue"))
 
 #Inventory
-inventory <- read_xlsx(here::here("House Project","Original Graph Location","inventory.xlsx"))
-inventory$Year = as.Date(inventory$Year, format = "%m/%d/%Y")
+# inventory <- read_xlsx(here::here("House Project","Original Graph Location","inventory.xlsx"))
+# inventory$Year = as.Date(inventory$Year, format = "%m/%d/%Y")
+# 
+# ggplot(inventory) +
+#   geom_line(aes(x=Year, y = Inventory, group = Type, color = Type), size = 1.5) +
+#   labs(title= "Figure 15: Housing Inventory",
+#        caption = "Source: Redfin Data Center") +
+#   scale_y_continuous(limits = c(0,2000000), breaks = seq(0, 2000000,200000)) +
+#   scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
+#   theme(panel.grid.minor = element_blank(),
+#         panel.grid.major = element_line(color= "black"),
+#         panel.background = element_rect(fill="white"),
+#         axis.text = element_text(size = 12, color = "black", family = "serif"),
+#         axis.ticks = element_blank(),
+#         axis.title = element_text(size = 16, color = "black", family = "serif"),
+#         plot.title = element_text(family = "serif", size = 24, hjust = .5),
+#         plot.caption = element_text(family = "serif", size = 12, hjust = .01),
+#         panel.border = element_rect(fill=NA),
+#         plot.background = element_rect(color="black"),
+#         legend.position = "bottom") +
+#   scale_color_manual(values = c("red", "blue"))
 
-ggplot(inventory) +
-  geom_line(aes(x=Year, y = Inventory, group = Type, color = Type), size = 1.5) +
-  labs(title= "Figure 15: Housing Inventory",
-       caption = "Source: Redfin Data Center") +
-  scale_y_continuous(limits = c(0,2000000), breaks = seq(0, 2000000,200000)) +
-  scale_x_date(date_breaks = "1 year", labels = date_format("%Y")) +
+
+#Vacancy Rate
+vacancy <- read_xlsx(here::here("House Project","Original Graph Location","vacancy.xlsx"))
+vacancy$Year = as.Date(vacancy$Year, format = "%m/%d/%Y")
+
+ggplot(vacancy) +
+  geom_line(aes(x=Year, y = Rate), size = 1.5) +
+  labs(title= "Figure 15: US Home Vacancy Rate",
+       caption = "Source: St. Louis Federal Reserve FRED") +
+  scale_y_continuous(limits = c(.5,3), breaks = seq(.5, 3,.5)) +
+  scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color= "black"),
         panel.background = element_rect(fill="white"),
@@ -190,10 +237,7 @@ ggplot(inventory) +
         plot.caption = element_text(family = "serif", size = 12, hjust = .01),
         panel.border = element_rect(fill=NA),
         plot.background = element_rect(color="black"),
-        legend.position = "bottom") +
-  scale_color_manual(values = c("red", "blue"))
-
-
+        legend.position = "bottom") 
 
 
 #GDPPCT
@@ -243,14 +287,37 @@ ggplot(man) +
   scale_color_manual(values = c("red", "blue"))
 
 #Permits
-permit <- read_xlsx(here::here("House Project","Original Graph Location","Permits.xlsx"))
-permit$Year = as.Date(permit$Year, format = "%m/%d/%Y")
+# permit <- read_xlsx(here::here("House Project","Original Graph Location","Permits.xlsx"))
+# permit$Year = as.Date(permit$Year, format = "%m/%d/%Y")
+# 
+# ggplot(permit) +
+#   geom_line(aes(x=Year, y = Permits, group = City, color = City), size = 1.5) +
+#   labs(title= "Figure 11: Number of New Building Permits",
+#        caption = "Source: St. Louis Federal Reserve FRED") +
+#   scale_y_continuous(limits = c(0,7000), breaks = seq(0, 7000,500)) +
+#   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
+#   theme(panel.grid.minor = element_blank(),
+#         panel.grid.major = element_line(color= "black"),
+#         panel.background = element_rect(fill="white"),
+#         axis.text = element_text(size = 12, color = "black", family = "serif"),
+#         axis.ticks = element_blank(),
+#         axis.title = element_text(size = 16, color = "black", family = "serif"),
+#         plot.title = element_text(family = "serif", size = 24, hjust = .5),
+#         plot.caption = element_text(family = "serif", size = 12, hjust = .01),
+#         panel.border = element_rect(fill=NA),
+#         plot.background = element_rect(color="black"),
+#         legend.position = "bottom") +
+#   scale_color_manual(values = c("red", "blue"))
 
-ggplot(permit) +
-  geom_line(aes(x=Year, y = Permits, group = City, color = City), size = 1.5) +
-  labs(title= "Figure 11: Number of New Building Permits",
+#Labor Force
+labor <- read_xlsx(here::here("House Project","Original Graph Location","labor.xlsx"))
+labor$Year = as.Date(labor$Year, format = "%m/%d/%Y")
+
+ggplot(labor) +
+  geom_line(aes(x=Year, y = Percent_Change, group = City, color = City), size = 1.5) +
+  labs(title= "Figure 11: Percent Change in Labor Force",
        caption = "Source: St. Louis Federal Reserve FRED") +
-  scale_y_continuous(limits = c(0,7000), breaks = seq(0, 7000,500)) +
+  scale_y_continuous(limits = c(-12,10), breaks = seq(-12, 10,2)) +
   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_line(color= "black"),
@@ -294,7 +361,7 @@ shillerg$Year = as.Date(shillerg$Year, format = "%m/%d/%Y")
 
 ggplot(shillerg) +
   geom_line(aes(x=Year, y = Percent_Change, group = City, color = City), size = 1.5) +
-  labs(title= "Figure 6: Shiller Index Percent Change",
+  labs(title= "Figure 5: Shiller Index Percent Change",
        caption = "Source: St. Louis Federal Reserve FRED") +
   scale_y_continuous(limits = c(-40,50), breaks = seq(-40, 50,5)) +
   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
@@ -312,27 +379,27 @@ ggplot(shillerg) +
   scale_color_manual(values = c("red", "blue"))
 
 #Shiller Compare
-shillern <- read_xlsx(here::here("House Project","Original Graph Location","ShillerN.xlsx"))
-shillern$Year = as.Date(shillern$Year, format = "%m/%d/%Y")
-
-ggplot(shillern) +
-  geom_line(aes(x=Year, y = Index, group = City, color = City), size = 1.5) +
-  labs(title= "Figure 5: Shiller Index",
-       caption = "Source: St. Louis Federal Reserve FRED") +
-  scale_y_continuous(limits = c(0,350), breaks = seq(0, 350,25)) +
-  scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major = element_line(color= "black"),
-        panel.background = element_rect(fill="white"),
-        axis.text = element_text(size = 12, color = "black", family = "serif"),
-        axis.ticks = element_blank(),
-        axis.title = element_text(size = 16, color = "black", family = "serif"),
-        plot.title = element_text(family = "serif", size = 24, hjust = .5),
-        plot.caption = element_text(family = "serif", size = 12, hjust = .01),
-        panel.border = element_rect(fill=NA),
-        plot.background = element_rect(color="black"),
-        legend.position = "bottom") +
-  scale_color_manual(values = c("red", "blue"))
+# shillern <- read_xlsx(here::here("House Project","Original Graph Location","ShillerN.xlsx"))
+# shillern$Year = as.Date(shillern$Year, format = "%m/%d/%Y")
+# 
+# ggplot(shillern) +
+#   geom_line(aes(x=Year, y = Index, group = City, color = City), size = 1.5) +
+#   labs(title= "Figure 5: Shiller Index",
+#        caption = "Source: St. Louis Federal Reserve FRED") +
+#   scale_y_continuous(limits = c(0,350), breaks = seq(0, 350,25)) +
+#   scale_x_date(date_breaks = "3 year", labels = date_format("%Y")) +
+#   theme(panel.grid.minor = element_blank(),
+#         panel.grid.major = element_line(color= "black"),
+#         panel.background = element_rect(fill="white"),
+#         axis.text = element_text(size = 12, color = "black", family = "serif"),
+#         axis.ticks = element_blank(),
+#         axis.title = element_text(size = 16, color = "black", family = "serif"),
+#         plot.title = element_text(family = "serif", size = 24, hjust = .5),
+#         plot.caption = element_text(family = "serif", size = 12, hjust = .01),
+#         panel.border = element_rect(fill=NA),
+#         plot.background = element_rect(color="black"),
+#         legend.position = "bottom") +
+#   scale_color_manual(values = c("red", "blue"))
 
 #unemployment
 unemployment <- read_xlsx(here::here("House Project","Original Graph Location","unemployment.xlsx"))
