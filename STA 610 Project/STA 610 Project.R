@@ -9,38 +9,46 @@ gvsu <- read_sav(here::here("STA 610 Project", "GVSU.sav"))
 sum(is.na(gvsu))
 apply(gvsu, 2, function(col)sum(is.na(col))/length(col))
 
-# recodegvsu <- gvsu %>%
-#   mutate(SEX = fct_recode(SEX,
-#                           "Female" = "F",
-#                           "Male" = "M"),
-#          YEAR = fct_recode(YEAR,
-#                            "Freshman" = "F",
-#                            "Sophomore" = "So",
-#                            "Junior" = "J",
-#                            "Senior" = "S"),
-#          BUS = fct_recode(BUS,
-#                           "Yes" = "Y",
-#                           "No" = "N"))
+recodegvsu <- gvsu %>%
+  mutate(SEX = fct_recode(SEX,
+                          "Female" = "F",
+                          "Male" = "M"),
+         YEAR = fct_recode(YEAR,
+                           "Freshman" = "F",
+                           "Sophomore" = "So",
+                           "Junior" = "J",
+                           "Senior" = "S"),
+         BUS = fct_recode(BUS,
+                          "Yes" = "Y",
+                          "No" = "N"))
 
 mutategvsu <- gvsu %>%
-  mutate(CREDITCOST = TUITION / CREDITS)
+  mutate(CREDITCOST = TUITION / CREDITS)%>%
+  filter(TUITION < 150001, CREDITS > 0)
 
 mutategvsu1 <- gvsu %>%
   mutate(SLEEPMINUTES = SLEEP * 60)
 
 mutategvsu2 <- gvsu %>%
-  mutate(GOODSLEEP = if(SLEEP >= 8){GOODSLEEP == "YES"
-    }
-    else{GOODSLEEP == "NO"})
+  mutate(GOODSLEEP = ifelse(SLEEP >= 8, "Yes", "No"))
          
 
-%>%
-  filter(TUITION < 150001, CREDITS > 0)
+filtergvsu <- gvsu %>%
+  filter(SEX == "F")
+
+filter1gvsu <- gvsu %>%
+  filter(TUITION <= 150000)
+
+filter2gvsu <- gvsu %>%
+  filter(SEX =="F", TUITION <= 150000)
 
 
-selectgvsu <- filtergvsu %>%
-  select(SEX, YEAR, SLEEP, CREDITCOST, STUDY, BUS) %>%
-  na.omit()
+
+selectgvsu <- gvsu %>%
+  select(SEX, YEAR, SLEEP, STUDY, BUS)
+
+select1gvsu <- gvsu %>%
+  select(-SEX)
 
 
 recodegvsu <- mutate(gvsu, SEX = fct_recode(SEX,
